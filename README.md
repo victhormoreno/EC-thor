@@ -7,7 +7,7 @@ EC-thor leverages Euclidean clustering to identify distinct groups of points in 
 
 ## Pipeline
 <p align="center">
-  <img src="./doc/media/pipeline.png"  alt="Perfomance of the algorithm" /><br />
+  <img src="./doc/media/pipeline.png" width="400" alt="Pipeline" /><br />
     Pipeline diagram
 </p>
 
@@ -18,17 +18,14 @@ EC-thor leverages Euclidean clustering to identify distinct groups of points in 
 
 ## Todo List
 ### Fixes in progress
-- [ ] 
-- [ ] 
+- [ ] Adaptation to Point Net
 
 ### Design choices
-- [ ] 
-- [ ] 
+- [ ] Modification ``Acumulator.hpp``
 
 ### Fixes to investigate
-- [ ] 
+- [ ] Parallelization of some functions
 
 <p align="center">
-  <img src="./doc/media/panoramic_logo.jpeg"  alt="Perfomance of the algorithm" /><br />
-  Logo
+  <img src="./doc/media/panoramic_logo.jpeg"  alt="Logo" /><br />
 </p>
