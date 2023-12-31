@@ -1,0 +1,10 @@
+<launch>
+    <rosparam command="load" file="$(find limovelo)/config/xaloc.yaml" />
+    <node pkg="limovelo" type="limovelo" name="limovelo" output="screen" />
+
+    <group ns="/ecthor" >
+     <rosparam command="load" file="$(find ecthor)/config/params.yaml"/>
+     <node name="ecthor" pkg="ecthor" type="ecthor" output="screen" />
+    </group>
+
+</launch>

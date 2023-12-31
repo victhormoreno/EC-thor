@@ -1,0 +1,84 @@
+# This file contains the parameters of the EC-thor node
+
+# General parameters
+common:
+  topics:
+    input:
+      point_cloud: "/limovelo/full_pcl"        # Point cloud input topic
+      odom: "/limovelo/state"                  # Odometry input topic
+    output:
+      observations: "/AS/P/ecthor/observations"    # Output topic for observations
+      ground: "/AS/P/ecthor/debug/ground"                # Output topic for ground (debug)
+      obstacles: "/AS/P/ecthor/debug/obstacle"           # Output topic for obstacle (debug)
+      buffer: "/AS/P/ecthor/debug/buffer"                # Output topic for buffer (debug)
+      clusters: "/AS/P/ecthor/debug/clusters"            # Output topic for points clusters (debug)
+      centroides: "/AS/P/ecthor/debug/centroides"        # Output topic for centroides clusters (debug)
+
+
+# Manager parameters
+manager:
+  publish_debug: false                        # True: Publish debug topics/ False: Do not publish debug topics
+  how_publish_buffer: false                   # True: Publish raw buffer/ False: Publish processed buffer
+  reconstruct: true                           # True: Recontruction cluster through an ikdTree
+
+# Ground segmentation parameters  
+groundsegmenter:
+  ground_segmentation_mode: true              # True: Ransac / False: Patchwork
+  ransac:
+    minz: -6                                  # min z value of the point cloud
+    maxz: 6                                   # max z value of the point cloud
+    max_iterations: 400                       # max iterations of the ransac algorithm (https://en.wikipedia.org/wiki/Random_sample_consensus)
+    dist_threshold: 0.1                      # distance threshold of the ransac algorithm 
+    plane_angle: 0.30                         # max angle of the plane 
+    vis_outliers: false                       # visualize outliers
+
+# Accumulator parameters
+accumulator:
+  buffer_size: 100000                          # max size of the buffer
+  buffer_raw_size: 150000                     # max size of the raw buffer
+  preproc:
+    voxelgrid:
+        active: false                          # activate voxelgrid filter
+        res_x: 0.05                           # x resolution of the voxelgrid filter
+        res_y: 0.05                            # y resolution of the voxelgrid filter
+        res_z: 0.01                            # z resolution of the voxelgrid filter
+    gridfilter:                               
+        active: true                          # activate grid filter
+        box_dim: 3.0                          # leaf (box) dimension [m]
+        max_height: 0.4                       # max height distribution [m]
+    passthrough:
+        active: true                          # activate passthrough filter
+        filter_x: true                        # activate filtering in x direction
+        filter_y: true                        # activate filtering in y direction
+        filter_z: true                       # activate filtering in z direction
+        limit_x: 60                           # (-x,x) limits of the passthrough filter
+        limit_y: 60                           # (-y,y) limits of the passthrough filter
+        limit_z: 10                            # (-z,z) limits of the passthrough filter
+
+# Object detection parameters
+objdet:
+  mode: true                                  # True: Fast Euclidean Clustering / False: PCL Euclidean Clustering
+  hiperparams:
+    eps: 0.25                                # search radius (https://en.wikipedia.org/wiki/DBSCAN)
+    maxPts: 1000                             # maxim points of a cluster
+    minPts: 6                                # minim points of a cluster
+
+  postproc:
+    cone:                                    # FSG cone dimensions (max distribution for each axis)
+      x: 0.228
+      y: 0.228
+      z: 0.325
+    bigCone:
+      x: 0.285
+      y: 0.285
+      z: 0.505 
+    min_distribution:                       # minim distribution of the points in the cluster for each axis
+      x: 0.05
+      y: 0.05
+      z: 0.1 
+
+# Reconstructor parameters
+reconstr:
+  delete_param: 0.3 
+  balance_param: 0.6
+  box_length: 0.02

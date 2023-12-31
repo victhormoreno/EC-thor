@@ -1,0 +1,6 @@
+<launch>
+    <group ns="/ector" >
+     <rosparam command="load" file="$(find ector)/config/acceleration.yaml"/>
+     <node name="ector" pkg="ector" type="ector" output="screen" />
+    </group>
+</launch>
