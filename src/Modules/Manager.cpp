@@ -50,19 +50,21 @@ void Manager::run(){
   std::vector<Cluster> clusters = objdet->postProc(objdet->getClusters());
 
   // Reconstrucut the clusters
-  std::vector<Cluster> clusters_reconstruction;
-  std::vector<pcl::PointXYZI> centroides;
-  Cluster::computeCentroids(clusters, centroides);
-  reconstr->reconstruct(centroides, clusters_reconstruction);
-
+  if(this->params_.reconstruct){
+    std::vector<pcl::PointXYZI> centroides;
+    Cluster::computeCentroids(clusters, centroides);
+    clusters.clear();
+    reconstr->reconstruct(centroides, clusters);
+  }
+ 
   // Publish Observations
-  this->publishObservations(clusters_reconstruction);
+  this->publishObservations(clusters);
   
   // Publish Debug Topics
   if(this->params_.publish_debug){
     if(this->params_.how_publish_buffer) this->publishBuff(this->objdet->getCloudPoints());
     else this->publishBuff(this->accum->getRawCloud());
-    this->publishClusters(clusters_reconstruction);
+    this->publishClusters(clusters);
   }
 }
 
@@ -144,28 +146,37 @@ void Manager::publishBuff(const pcl::PointCloud<pcl::PointXYZI>::ConstPtr &cloud
 
 void::Manager::publishClusters(const std::vector<Cluster> &clusters) const {
   sensor_msgs::PointCloud2 msg_clust;
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+  // pcl::PointCloud<pcl::PointXYZRGB>::Ptr coloredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-  // Asigna un color único a cada clúster
-  for (size_t i = 0; i < clusters.size(); ++i) {
-    for (pcl::PointXYZI p : clusters[i].points_) {
-      pcl::PointXYZRGB coloredPoint;
-      coloredPoint.x = p.x;
-      coloredPoint.y = p.y;
-      coloredPoint.z = p.z;
-
-      // Asigna un color único basado en el índice del clúster
-      coloredPoint.r = static_cast<uint8_t>((i * 119 + 103) % 256);
-      coloredPoint.g = static_cast<uint8_t>((i * 61 + 139) % 256);
-      coloredPoint.b = static_cast<uint8_t>((i * 31 + 173) % 256);
-
-      coloredCloud->push_back(coloredPoint);
+  for(Cluster c : clusters){
+    for(pcl::PointXYZI p : c.points_){
+      pcl::PointXYZ point;
+      point.x = p.x;
+      point.y = p.y;
+      point.z = p.z;
+      cloud->push_back(point);
     }
   }
 
-  pcl::toROSMsg(*coloredCloud, msg_clust);
-  msg_clust.header.frame_id = "global";
-  msg_clust.header.stamp = ros::Time::now();
+  // // Asigna un color único a cada clúster
+  // for (size_t i = 0; i < clusters.size(); ++i) {
+  //   for (pcl::PointXYZI p : clusters[i].points_) {
+  //     pcl::PointXYZRGB coloredPoint;
+  //     coloredPoint.x = p.x;
+  //     coloredPoint.y = p.y;
+  //     coloredPoint.z = p.z;
+
+  //     // Asigna un color único basado en el índice del clúster
+  //     coloredPoint.r = static_cast<uint8_t>((i * 119 + 103) % 256);
+  //     coloredPoint.g = static_cast<uint8_t>((i * 61 + 139) % 256);
+  //     coloredPoint.b = static_cast<uint8_t>((i * 31 + 173) % 256);
+
+  //     coloredCloud->push_back(coloredPoint);
+  //   }
+  // }
+  pcl::toROSMsg(*cloud, msg_clust);
+  msg_clust.header = this->header_;
   pubClusters_.publish(msg_clust);
 }
 

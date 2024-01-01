@@ -17,9 +17,9 @@ common:
 
 # Manager parameters
 manager:
-  publish_debug: false                        # True: Publish debug topics/ False: Do not publish debug topics
+  publish_debug: true                        # True: Publish debug topics/ False: Do not publish debug topics
   how_publish_buffer: false                   # True: Publish raw buffer/ False: Publish processed buffer
-  reconstruct: true                           # True: Recontruction cluster through an ikdTree
+  reconstruct: false                          # True: Recontruction cluster through an ikdTree
 
 # Ground segmentation parameters  
 groundsegmenter:
