@@ -7,7 +7,7 @@ EC-thor leverages Euclidean clustering to identify distinct groups of points in 
 
 ## Pipeline
 <p align="center">
-  <img src="./doc/media/pipeline.png" width="400" alt="Pipeline" /><br />
+  <img src="./doc/media/pipeline.png" width="450" alt="Pipeline" /><br />
     Pipeline diagram
 </p>
 
