@@ -1,9 +1,16 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(ecthor)
 
+SET(CMAKE_BUILD_TYPE "Release")
 add_compile_options(-std=c++17)
+set( CMAKE_CXX_FLAGS "-std=c++17 -O3" )
 
 message(STATUS "Welcome to EC-thor! :)")
+
+# OpenMP
+find_package(OpenMP QUIET)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -31,44 +38,39 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+	${PCL_INCLUDE_DIRS}
+	${PYTHON_INCLUDE_DIRS}
 )
-
-find_package(OpenMP REQUIRED)
-if(OPENMP_FOUND)
-  message(STATUS "OPENMP FOUND")
-  set(OpenMP_FLAGS ${OpenMP_CXX_FLAGS})
-  set(OpenMP_LIBS gomp)
-else()
-  message(WARNING "OPENMP NOT FOUND, multithreaded disabled")
-endif()
+  
 
 
 add_executable(ecthor
-  include/Modules
+  # include/Modules
 
-  # Pipelines
   src/main.cpp
-
-  src/Modules/Manager.cpp
-  src/Modules/GroundSegmenter.cpp
-  src/Modules/Accumulator.cpp
-  src/Modules/ObjectDetector.cpp
-  src/Modules/Reconstructor.cpp
-
-  src/Objects/Params.cpp
-  src/Objects/Cluster.cpp
   
-  src/Utils/Preproc.cpp
-  src/Utils/Ransac.cpp
-  src/Utils/FEC.cpp
-  src/Utils/ikdTree.cpp
+  # modules
+  src/modules/Manager.cpp
+  src/modules/Processor.cpp
+  src/modules/Accumulator.cpp
+  src/modules/Detector.cpp
+  src/modules/Reconstructor.cpp
+  
+  # utils
+  src/utils/Waggner.cpp
+  src/utils/FEC.cpp
+  src/utils/ikdTree.cpp
 )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+set(LINK_LIBRARIES
+	${catkin_LIBRARIES}
+	${PCL_LIBRARIES}
+	${PYTHON_LIBRARIES}
+)
 
 add_dependencies(${PROJECT_NAME} as_msgs_generate_messages_cpp)
 
-target_link_libraries(ecthor ${catkin_LIBRARIES})
+target_link_libraries(ecthor ${LINK_LIBRARIES})
 
 # Mandatory for parallelism (OpenMP)
 target_compile_options(ecthor PRIVATE ${OpenMP_FLAGS})

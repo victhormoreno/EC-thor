@@ -1,0 +1,7 @@
+<launch>
+    <group ns="/ecthor" >
+    <rosparam command="load" file="$(find ecthor)/config/params.yaml"/>
+    <node name="ecthor" pkg="ecthor" type="ecthor" output="screen" />
+    </group>
+
+</launch>

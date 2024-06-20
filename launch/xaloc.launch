@@ -3,8 +3,12 @@
     <node pkg="limovelo" type="limovelo" name="limovelo" output="screen" />
 
     <group ns="/ecthor" >
-     <rosparam command="load" file="$(find ecthor)/config/params.yaml"/>
-     <node name="ecthor" pkg="ecthor" type="ecthor" output="screen" />
+        <rosparam command="load" file="$(find ecthor)/config/params.yaml"/>
+        <node name="ecthor" pkg="ecthor" type="ecthor" output="screen" />
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find ecthor)/rviz/ecthor.rviz" />
     </group>
+
+    <rosparam command="load" file="$(find tracker)/config/params.yml" />
+    <node pkg="tracker" type="tracker" name="tracker" output="screen" />
 
 </launch>

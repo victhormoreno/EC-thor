@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: ecthor
+Description: Description of ecthor
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -ldbscone
+Requires: roscpp rospy std_msgs

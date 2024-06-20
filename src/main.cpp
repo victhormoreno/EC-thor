@@ -3,20 +3,19 @@
  * @author Víctor Moreno Borràs (victor.moreno.borras@estudiantat.upc.edu)
  * @brief Main file of EC-thor
  * @version 2.0
- * @date 2024-01-01
+ * @date 2024-04-20
  * 
- * @copyright Copyright (c) 2023 BCN eMotorsport
+ * @copyright Copyright (c) 2024 BCN eMotorsport
  * 
  */
 
-#include <ros/ros.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/sync_policies/approximate_time.h>
 #include <message_filters/synchronizer.h>
 #include <message_filters/time_synchronizer.h>
 #include <std_msgs/Float32.h>
 
-#include "Modules/Manager.hpp"
+#include "modules/Manager.hpp"
 
 
 typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::PointCloud2, nav_msgs::Odometry> MySyncPolicy;
@@ -37,6 +36,8 @@ int main(int argc, char **argv){
 
     // Debug Publisher
     ros::Publisher pubObstacle = nh->advertise<sensor_msgs::PointCloud2>(params.common.topics.output.obstacle, 20);
+    ros::Publisher pubState = nh->advertise<nav_msgs::Odometry>(params.common.topics.output.state, 20);
+    ros::Publisher pubWalls = nh->advertise<sensor_msgs::PointCloud2>(params.common.topics.output.walls, 20);
     ros::Publisher pubGround = nh->advertise<sensor_msgs::PointCloud2>(params.common.topics.output.ground, 20);
     ros::Publisher pubBuffer = nh->advertise<sensor_msgs::PointCloud2>(params.common.topics.output.buffer, 20);
     ros::Publisher pubClusters = nh->advertise<sensor_msgs::PointCloud2>(params.common.topics.output.clusters, 1);
@@ -48,7 +49,7 @@ int main(int argc, char **argv){
 
     /* Initialize Manager */
     Manager& manager = Manager::getInstance();
-    manager.init(params, pubObs, pubGround, pubObstacle, pubBuffer, pubClusters);
+    manager.init(params, pubObs, pubState, pubWalls, pubGround, pubObstacle, pubBuffer, pubClusters);
 
     /* Time syncronizer */
     pcl_sub.subscribe(*nh, params.common.topics.input.limovelo, 1000);
@@ -56,7 +57,7 @@ int main(int argc, char **argv){
     message_filters::Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), pcl_sub, state_sub);
     sync.registerCallback(boost::bind(&Manager::callbackNewData, &manager, _1, _2));
 
-    ros::Rate rate(5);
+    ros::Rate rate(10);
     std_msgs::Float32 time;
 
     /* -------------  Main loop ------------- */ 
