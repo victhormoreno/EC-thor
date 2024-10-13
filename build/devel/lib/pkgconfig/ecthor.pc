@@ -1,8 +1,0 @@
-prefix=/home/victhor/bcnemotorsport/ws/src/ec-thor/build/devel
-
-Name: ecthor
-Description: Description of ecthor
-Version: 0.0.0
-Cflags: -I/home/victhor/bcnemotorsport/ws/src/ec-thor/include
-Libs: -L${prefix}/lib -ldbscone
-Requires: roscpp rospy std_msgs
