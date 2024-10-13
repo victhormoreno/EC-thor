@@ -24,7 +24,7 @@ In addition to the core functionality, a more detailed and in-depth explanation 
 The EC-thor pipeline performs cone detection using a three-step strategy: filtering, segmentation, and classification.
 
 <p align="center">
-  <img src="./doc/media/pipeline.png" width="600" alt="EC-thor Pipeline" /><br />
+  <img src="./doc/media/pipeline.png" width="800" alt="EC-thor Pipeline" /><br />
     EC-thor conceptual pipeline
 </p>
 
