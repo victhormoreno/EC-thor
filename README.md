@@ -8,9 +8,13 @@ This system has been **over-optimized** for a specific use case: detecting cones
 
 
 
+<div align="center">
+
 | FSG24 Trackdrive Cones Track | Fòrum Testing Track |
 |:----------------------------:|:-------------------:|
 | <img src="./doc/media/fsg_track.jpeg" alt="Image 1" height="187"/> | <img src="./doc/media/track1.png" alt="Image 2" height="187"/> |
+
+</div>
 
 
 In addition to the core functionality, a more detailed and in-depth explanation of the module can be found in the Bachelor's Degree Thesis: **["Enhancing Cone Detection in the Perception System of a Formula Student Car"](../doc/MorenoVictorTFG.pdf)**. This document delves into the technical implementation, challenges, and results obtained during the development of this system, offering valuable insights into the improvements achieved through this work.
