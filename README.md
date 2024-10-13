@@ -1,11 +1,9 @@
 
 # **EC-thor**
 
-**EC-thor** is a high-performance module implemented in **C++** and designed
-to run on **ROS**, developed for the **[BCNeMotorsport](https://bcnemotorsport.upc.edu)** autonomous pipeline. Its primary focus is cone detection for a Formula Student car, leveraging **Fast Euclidean Clustering (FEC)** to accurately identify distinct cones in a highly detailed point cloud map. The module is built using the **Point Cloud Library (PCL)**, ensuring efficient processing of 3D LiDAR data in real-time. 
+**EC-thor** is a high-performance module, implemented in **C++** with an **object-oriented programming** approach, and designed to run on **ROS**. Developed for the **[BCNeMotorsport](https://bcnemotorsport.upc.edu)** autonomous pipeline, its primary focus is cone detection for a Formula Student car. The system leverages **Fast Euclidean Clustering (FEC)** to accurately identify distinct cones in a highly detailed point cloud map. The module is built using the **Point Cloud Library (PCL)**, ensuring efficient processing of 3D LiDAR data in real-time.
 
-This system has been **over-optimized** for a specific use case: detecting cones for the **Velodyne VLP-32C** LiDAR sensor. EC-thor works in conjunction with the **[LIMO-Velo](https://github.com/Huguet57/LIMO-Velo)** SLAM algorithm. As a result, all incoming LiDAR frames are processed directly in a global reference frame, with precise odometry estimates for each frame.
-
+This system has been **over-optimized** for a specific use case: detecting cones for the **Velodyne VLP-32C** LiDAR sensor located on the front wing of the Formula Student vehicle. EC-thor works in conjunction with the **[LIMO-Velo](https://github.com/Huguet57/LIMO-Velo)** SLAM algorithm. As a result, all incoming LiDAR frames are processed directly in a global reference frame, with precise odometry estimates for each frame.
 
 
 <div align="center">
@@ -17,7 +15,7 @@ This system has been **over-optimized** for a specific use case: detecting cones
 </div>
 
 
-In addition to the core functionality, a more detailed and in-depth explanation of the module can be found in the Bachelor's Degree Thesis: **["Enhancing Cone Detection in the Perception System of a Formula Student Car"](../doc/MorenoVictorTFG.pdf)**. This document delves into the technical implementation, challenges, and results obtained during the development of this system, offering valuable insights into the improvements achieved through this work.
+In addition to the core functionality, a more detailed and in-depth explanation of the module can be found in the Bachelor's Degree Thesis: **["Enhancing Cone Detection in the Perception System of a Formula Student Car"](./doc/MorenoVictorTFG.pdf)**. This document delves into the technical implementation, challenges, and results obtained during the development of this system, offering valuable insights into the improvements achieved through this work.
 
 ## Pipeline
 
